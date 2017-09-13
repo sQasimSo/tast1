@@ -31,13 +31,21 @@ public class LoginActivity extends AppCompatActivity
                 String entry1Value = entry1.getText().toString();
                 String entry2Value = entry2.getText().toString();
 
-                if(entry1Value.equals(entry2Value))
+                if(entry1Value.length() == 0 && entry2Value.length() == 0)
                 {
-                    result.setText("Confirmed!");
+                    result.setText("Entries are empty!");
                 }
                 else
                 {
-                    result.setText("Entries are not identical!");
+                    if (entry1Value.equals(entry2Value))
+                    {
+                        result.setText("Confirmed!");
+                        setContentView(R.layout.activity_records);
+                    }
+                    else
+                    {
+                        result.setText("Entries are not identical!");
+                    }
                 }
             }
         };
