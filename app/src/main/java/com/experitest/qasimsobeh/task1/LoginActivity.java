@@ -8,12 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import static com.experitest.qasimsobeh.task1.R.id.button_confirm;
-import static com.experitest.qasimsobeh.task1.R.id.editText_entry1;
-import static com.experitest.qasimsobeh.task1.R.id.textView_result;
 
 public class LoginActivity extends AppCompatActivity
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -24,13 +21,13 @@ public class LoginActivity extends AppCompatActivity
 
         View.OnClickListener btnClick = new View.OnClickListener()
         {
+            EditText entry1 = (EditText) findViewById(R.id.editText_entry1);
+            EditText entry2 = (EditText) findViewById(R.id.editText_entry2);
+            TextView result = (TextView) findViewById(R.id.textView_result);
+
             @Override
             public void onClick(View view)
             {
-                EditText entry1 = (EditText) findViewById(R.id.editText_entry1);
-                EditText entry2 = (EditText) findViewById(R.id.editText_entry1);
-                TextView result = (TextView) findViewById(R.id.textView_result);
-
                 String entry1Value = entry1.getText().toString();
                 String entry2Value = entry2.getText().toString();
 
