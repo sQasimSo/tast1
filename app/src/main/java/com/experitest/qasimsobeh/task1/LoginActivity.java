@@ -1,5 +1,6 @@
 package com.experitest.qasimsobeh.task1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import static com.experitest.qasimsobeh.task1.R.id.button_confirm;
 
 public class LoginActivity extends AppCompatActivity
 {
+    public static final String EXTRA_MESSAGE = "extra message to be sent between intents";
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,7 +42,10 @@ public class LoginActivity extends AppCompatActivity
                     if (entry1Value.equals(entry2Value))
                     {
                         result.setText("Confirmed!");
-                        setContentView(R.layout.activity_records);
+                        Intent intent = new Intent(getApplicationContext(), Records.class);
+                        intent.putExtra(EXTRA_MESSAGE,entry1Value);
+                        startActivity(intent);
+                        //setContentView(R.layout.activity_records);
                     }
                     else
                     {
