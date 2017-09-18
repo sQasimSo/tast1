@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/textView_number"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+        android:text="number"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/textView_time"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="time"
+        android:layout_toRightOf="@+id/textView_number"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/textView_action"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:text="action"
+        android:layout_height="75dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/textView_time"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/textView_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_alignParentRight="true"
+        android:text="activity"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/textView_action"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FFFFFF"/>
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#FFFFFF"
+        android:layout_below="@+id/textView_number">
+    </view>
+
+</RelativeLayout>

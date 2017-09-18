@@ -8,14 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class Records extends AppCompatActivity
 {
-    DatabaseHelper myDB;
-    EditText fName, lName, email, score;
-    TextView insertionRes;
-    Button btnAddData;
+    ListView listView;
+    RecordAdapter recordAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,40 +24,10 @@ public class Records extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
 
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
+        listView = (ListView) findViewById(R.id.listView_Records);
+        recordAdapter = new RecordAdapter(getApplicationContext(),R.layout.row_layout);
+        listView.setAdapter(recordAdapter);
 
-        fName = (EditText) findViewById(R.id.editText_firstName);
-        lName = (EditText) findViewById(R.id.editText_lastName);
-        email = (EditText) findViewById(R.id.editText_email);
-        score = (EditText) findViewById(R.id.editText_score);
-        insertionRes = (TextView) findViewById(R.id.textView_insertionRes);
 
-        btnAddData = (Button) findViewById(R.id.button_add);
-        btnAddData.setOnClickListener(listener1);
-
-        insertionRes.setText(message);
     }
-
-    View.OnClickListener listener1 = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            myDB = new DatabaseHelper(getApplicationContext());
-            if (view.getId() == R.id.button_add)
-            {
-                boolean insertionStatus = myDB.insertData(fName.getText().toString(),
-                        lName.getText().toString(),
-                        email.getText().toString(),
-                        Integer.parseInt(score.getText().toString()),
-                        insertionRes);
-                //need to check if the editTexts are empty and deal with it!
-                if (insertionStatus == true)
-                    insertionRes.setText("Added Successfully");
-                else
-                    insertionRes.setText("Insertion Failed!");
-            }
-        }
-    };
 }

@@ -7,4 +7,55 @@
     android:layout_height="match_parent"
     tools:context="com.experitest.qasimsobeh.task1.main_menu">
 
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TextView
+            android:id="@+id/textView_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="132dp"
+            tools:layout_editor_absoluteY="30dp" />
+
+        <Button
+            android:id="@+id/button_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:onClick="GameButton"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="84dp" />
+
+        <Button
+            android:id="@+id/button_Records"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Records"
+            android:onClick="openRecordsButton"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="150dp" />
+
+        <Button
+            android:id="@+id/button_logs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logs"
+            android:onClick="openLogsButton"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="213dp" />
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="match_parent"
+            android:onClick="logOutButton"
+            android:layout_height="wrap_content"
+            android:text="Log Out" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

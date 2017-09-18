@@ -8,11 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.time.LocalDateTime;
+
 import static com.experitest.qasimsobeh.task1.R.id.button_confirm;
 
 public class LoginActivity extends AppCompatActivity
 {
     public static final String EXTRA_MESSAGE = "extra message to be sent between intents";
+    Globals g = Globals.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,6 +33,9 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                Log newLog = new Log(LocalDateTime.now().toString(),"Confirm Button Clicked", getCallingPackage());
+                Globals.getApplicationLog().add(newLog);
+
                 String entry1Value = entry1.getText().toString();
                 String entry2Value = entry2.getText().toString();
 
@@ -42,8 +48,8 @@ public class LoginActivity extends AppCompatActivity
                     if (entry1Value.equals(entry2Value))
                     {
                         result.setText("Confirmed!");
-                        Intent intent = new Intent(getApplicationContext(), Records.class);
-                        intent.putExtra(EXTRA_MESSAGE,entry1Value);
+                        Intent intent = new Intent(getApplicationContext(), main_menu.class);
+                        Globals.setUserName(entry1Value);
                         startActivity(intent);
                         //setContentView(R.layout.activity_records);
                     }
