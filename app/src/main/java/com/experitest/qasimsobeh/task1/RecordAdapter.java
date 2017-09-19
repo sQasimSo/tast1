@@ -1,26 +1,69 @@
 package com.experitest.qasimsobeh.task1;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
-/**
- * Created by Qasim on 9/18/2017.
- */
+import java.util.ArrayList;
 
-public class RecordAdapter extends ArrayAdapter
+public class RecordAdapter extends ArrayAdapter<Record>
 {
-    public RecordAdapter(@NonNull Context context, @LayoutRes int resource)
+    private ArrayList<Record> gameRecord;
+    Context mContext;
+
+    public RecordAdapter(ArrayList<Record> records, Context context)
     {
-        super(context, resource);
+        super(context, R.layout.record_row_layout, records);
+        this.gameRecord = records;
+        this.mContext = context;
+    }
+
+    private static class ViewHolder
+    {
+        TextView txtNumber;
+        TextView txtTime;
+        TextView txtUserName;
+        TextView txtScore;
     }
 
     @Override
-    public void add(@Nullable Object object)
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-        super.add(object);
+        Record currentRecord = getItem(position);
+        ViewHolder viewHolder;
+
+        final View result;
+
+        if(convertView == null)
+        {
+            viewHolder = new ViewHolder();
+
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.row_layout, parent, false);
+
+            viewHolder.txtScore = (TextView) convertView.findViewById(R.id.textView_score);
+            viewHolder.txtUserName = (TextView) convertView.findViewById(R.id.textView_userName);
+            viewHolder.txtTime = (TextView) convertView.findViewById(R.id.textView_time);
+            viewHolder.txtNumber = (TextView) convertView.findViewById(R.id.textView_number);
+
+            result = convertView;
+            convertView.setTag(viewHolder);
+        }
+        else
+        {
+            viewHolder = (ViewHolder) convertView.getTag();
+            result = convertView;
+        }
+
+        viewHolder.txtNumber.setText("" + position);
+        viewHolder.txtUserName.setText(currentRecord.getUserName());
+        viewHolder.txtScore.setText("" + currentRecord.getScore());
+        viewHolder.txtTime.setText(currentRecord.getTime());
+
+        return result;
     }
 }
 

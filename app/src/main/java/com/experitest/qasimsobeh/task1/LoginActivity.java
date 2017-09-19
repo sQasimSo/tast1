@@ -8,13 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 
 import static com.experitest.qasimsobeh.task1.R.id.button_confirm;
 
 public class LoginActivity extends AppCompatActivity
 {
-    public static final String EXTRA_MESSAGE = "extra message to be sent between intents";
     Globals g = Globals.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,8 +35,22 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Log newLog = new Log(LocalDateTime.now().toString(),"Confirm Button Clicked", getCallingPackage());
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                Log newLog = new Log(currentDateTimeString,"Confirm Button Clicked", "Login Activity");
                 Globals.getApplicationLog().add(newLog);
+
+                newLog = Globals.getApplicationLog().get(0);
+                //fillLog();
+
+                if(newLog == null)
+                {
+                    result.setText("Log not found!");
+                }
+                else
+                {
+                    result.setText(newLog.getTime() + "," + newLog.getAction() + "," + newLog.getActivity());
+                }
+
 
                 String entry1Value = entry1.getText().toString();
                 String entry2Value = entry2.getText().toString();
@@ -50,6 +66,7 @@ public class LoginActivity extends AppCompatActivity
                         result.setText("Confirmed!");
                         Intent intent = new Intent(getApplicationContext(), main_menu.class);
                         Globals.setUserName(entry1Value);
+
                         startActivity(intent);
                         //setContentView(R.layout.activity_records);
                     }
@@ -62,5 +79,17 @@ public class LoginActivity extends AppCompatActivity
         };
 
         button_confirm.setOnClickListener(btnClick);
+    }
+
+    public static void fillLog(ArrayList<Log> log)
+    {
+        for (int i=0; i<10; i++)
+        {
+            Log newLog = new Log();
+            newLog.setAction("button" + i + " clicked");
+            newLog.setTime(DateFormat.getDateTimeInstance().format(new Date()));
+            newLog.setActivity("Main Activity");
+            log.add(newLog);
+        }
     }
 }

@@ -7,17 +7,17 @@ package com.experitest.qasimsobeh.task1;
 public class Record
 {
     private String time;
-    private String action;
-    private String activity;
+    private int score;
+    private String userName;
 
     public Record(){}
 
-    public Record(String time, String action, String activity)
+    public Record(String time, String userName, int score)
     {
 
         this.time = time;
-        this.action = action;
-        this.activity = activity;
+        this.userName = userName;
+        this.score = score;
     }
 
     public String getTime()
@@ -30,23 +30,23 @@ public class Record
         this.time = time;
     }
 
-    public String getAction()
+    public int getScore()
     {
-        return action;
+        return score;
     }
 
-    public void setAction(String action)
+    public void setScore(int score)
     {
-        this.action = action;
+        this.score = score;
     }
 
-    public String getActivity()
+    public String getUserName()
     {
-        return activity;
+        return userName;
     }
 
-    public void setActivity(String activity)
+    public void setUserName(String userName)
     {
-        this.activity = activity;
+        this.userName = userName;
     }
 }

@@ -1,92 +1,67 @@
 package com.experitest.qasimsobeh.task1;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by Qasim on 9/18/2017.
- */
-
-class LogAdapter extends ArrayAdapter
+public class LogAdapter extends ArrayAdapter<Log>
 {
-    List list = new ArrayList();
+    private ArrayList<Log> applicationLog;
+    Context mContext;
 
-    static class DataHandler
+    public LogAdapter(ArrayList<Log> log, Context context)
     {
-        TextView number;
-        TextView time;
-        TextView action;
-        TextView activity;
-    }
-    public LogAdapter(@NonNull Context context, @LayoutRes int resource)
-    {
-        super(context, resource);
+        super(context, R.layout.row_layout, log);
+        this.applicationLog = log;
+        this.mContext = context;
     }
 
-    @Override
-    public void add(@Nullable Object object)
+    private static class ViewHolder
     {
-        super.add(object);
-        list.add(object);
+        TextView txtNumber;
+        TextView txtAction;
+        TextView txtActivity;
+        TextView txtTime;
     }
 
     @Override
-    public int getCount()
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-        return this.list.size();
-    }
+        Log currentLog = getItem(position);
+        ViewHolder viewHolder;
 
-    @Nullable
-    @Override
-    public Object getItem(int position)
-    {
-        return this.list.get(position);
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-    {
-        View row;
-        DataHandler dh;
-        LayoutInflater inflater;
-        row = convertView;
+        final View result;
 
         if(convertView == null)
         {
-            inflater = LayoutInflater.from(getContext());
-            row = inflater.inflate(R.layout.row_layout,parent,false);
+            viewHolder = new ViewHolder();
 
-            dh = new DataHandler();
-            dh.action = (TextView) row.findViewById(R.id.textView_action);
-            dh.number = (TextView) row.findViewById(R.id.textView_number);
-            dh.activity = (TextView) row.findViewById(R.id.textView_activity);
-            dh.time = (TextView) row.findViewById(R.id.textView_time);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.row_layout, parent, false);
 
-            row.setTag(dh);
+            viewHolder.txtAction = (TextView) convertView.findViewById(R.id.textView_action);
+            viewHolder.txtActivity = (TextView) convertView.findViewById(R.id.textView_activity);
+            viewHolder.txtTime = (TextView) convertView.findViewById(R.id.textView_time);
+            viewHolder.txtNumber = (TextView) convertView.findViewById(R.id.textView_number);
+
+            result = convertView;
+            convertView.setTag(viewHolder);
         }
         else
         {
-            dh = (DataHandler)row.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
+            result = convertView;
         }
 
-        Log log = (Log) this.getItem(position);
+        viewHolder.txtNumber.setText("" + position);
+        viewHolder.txtAction.setText(currentLog.getAction());
+        viewHolder.txtActivity.setText(currentLog.getActivity());
+        viewHolder.txtTime.setText(currentLog.getTime());
 
-        dh.number.setText(log.getTime());
-        dh.action.setText(log.getAction());
-        dh.activity.setText(log.getActivity());
-        dh.time.setText(log.getTime());
-
-        return row;
+        return result;
     }
 }
