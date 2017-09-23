@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.*;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by karou on 13-Sep-17.
  */
+
 final class DBParametersFeed
 {
     public static final String DATABASE_NAME = "Players.db";
@@ -77,22 +79,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return records;
     }
 
-    public boolean insertData(String userName, String scoreTime, int score)
+    public void insertData(SQLiteDatabase db,String userName, String scoreTime, int score)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(DBParametersFeed.SQL_CREATE_STATEMENT);
+        ContentValues contentValues =  new ContentValues();
 
-        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBParametersFeed.col1, userName);
+        contentValues.put(DBParametersFeed.col2, scoreTime);
+        contentValues.put(DBParametersFeed.col3, score);
 
-        contentValues.put(DBParametersFeed.col1,userName);
-        contentValues.put(DBParametersFeed.col2,scoreTime);
-        contentValues.put(DBParametersFeed.col3,score);
-
-        long result = db.insert(DBParametersFeed.TABLE_NAME, null, contentValues);
-
-        if(result == -1)
-            return false;
-        else
-            return true;
+        db.insert(DBParametersFeed.TABLE_NAME,null,contentValues);
+        android.util.Log.d("Database operations", "One row inserted");
     }
 }

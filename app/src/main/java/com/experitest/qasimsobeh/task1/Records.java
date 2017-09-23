@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,17 +30,19 @@ public class Records extends AppCompatActivity
         setContentView(R.layout.activity_records);
 
         listView = (ListView) findViewById(R.id.listView_Records);
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        BackgroundTask backgroundTask = new BackgroundTask(this);
 
         //for testing
-        /*for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
-            databaseHelper.insertData(Globals.getUserName() + i, DateFormat.getDateTimeInstance().format(new Date()), i*5);
-        }*/
+            backgroundTask.execute("add_info","user number " + i, DateFormat.getDateTimeInstance().format(new Date()),"" + i*7);
+            finish();
+        }
 
 
         ArrayList<Record> records = databaseHelper.getAllRecords();
-        recordAdapter = new RecordAdapter(records,getApplicationContext());
-        listView.setAdapter(recordAdapter);
+        /*recordAdapter = new RecordAdapter(records, this);
+        listView.setAdapter(recordAdapter);*/
     }
 }

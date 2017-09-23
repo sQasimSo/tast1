@@ -2,9 +2,7 @@ package com.experitest.qasimsobeh.task1;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.NetworkInfo;
@@ -13,30 +11,19 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.Random;
 
-import static android.R.attr.countDown;
-import static android.R.attr.supportsSwitchingToNextInputMethod;
-import static android.R.attr.text;
-import static android.R.attr.width;
-import static com.experitest.qasimsobeh.task1.R.attr.height;
 
 public class GameActivity extends AppCompatActivity
 {
