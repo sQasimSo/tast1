@@ -24,26 +24,28 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Random;
 
 
 public class GameActivity extends AppCompatActivity
 {
-    boolean lost = false;
-    WebView webView;
-    double timer = 3000;
+    boolean isPlaying = true;
+    long timer = 3000;
     CountDownTimer countDownTimer;
-    int clicksCount = 0;
+    int clicksCount = -1;
     TextView gps_latitude, gps_longitude, wifi, textView_timer;
     Button button;
     RelativeLayout layout;
     ImageButton imageButton;
-    int imageButtonX, imageButtonY, imageButtonDimensions, min=50, max=100;
+    int imageButtonX, imageButtonY, imageButtonDimensions, min = 50, max = 100;
     int layoutWidthForGame, layoutHeightForGame;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private FrameLayout subActivityContent;
     Globals g;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -67,8 +69,20 @@ public class GameActivity extends AppCompatActivity
             {
                 button.setVisibility(View.INVISIBLE);
                 imageButton.setVisibility(View.VISIBLE);
-
                 switchButtonLocation();
+                startTimer(timer);
+            }
+        });
+
+        imageButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                countDownTimer.cancel();
+                timer *= 0.95;
+                switchButtonLocation();
+                startTimer(timer);
             }
         });
         //those line of code are for GPS coordinated and wifi name.
@@ -78,7 +92,7 @@ public class GameActivity extends AppCompatActivity
         gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new myLocationListener(getApplicationContext(),findViewById(R.id.textView_GPS_Latitude), findViewById(R.id.textView_GPS_Longitude));
+        locationListener = new myLocationListener(getApplicationContext(), findViewById(R.id.textView_GPS_Latitude), findViewById(R.id.textView_GPS_Longitude));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -145,4 +159,47 @@ public class GameActivity extends AppCompatActivity
         LayoutParams params = new LayoutParams(imageButtonDimensions, imageButtonDimensions);
         imageButton.setLayoutParams(params);
     }
+
+    private void startTimer(long time)
+    {
+        countDownTimer = new CountDownTimer(time, 100)
+        {
+            public void onTick(long millisUntilDone)
+            {
+                if (isPlaying == true)
+                {
+                    textView_timer.setText("seconds remaining: " + millisUntilDone / 100 + "." + millisUntilDone % 100);
+                }
+                else
+                {
+                    textView_timer.setText("done!");
+                }
+            }
+
+            public void onFinish()
+            {
+                isPlaying = false;
+                imageButton.setVisibility(View.INVISIBLE);
+                textView_timer.setText("done!");
+
+                BackgroundTask backgroundTask = new BackgroundTask(getApplication());
+                backgroundTask.execute("add_info", Globals.getUserName(), DateFormat.getDateTimeInstance().format(new Date()), "" + clicksCount);
+                finish();
+
+                clicksCount = 0;
+                button.setVisibility(View.VISIBLE);
+            }
+        }.start();
+    }
+
+    /*@Override
+    protected void onResume()
+    {
+        if (currentuser.getusername().equals(""))
+        {
+            Intent myintent = new Intent(gamescreen.this, MainActivity.class);
+            startActivity(myintent);
+        }
+        super.onResume();
+    }*/
 }
