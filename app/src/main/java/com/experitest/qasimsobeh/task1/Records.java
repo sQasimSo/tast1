@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.style.BackgroundColorSpan;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,12 +24,18 @@ public class Records extends AppCompatActivity
 {
     ListView listView;
     RecordAdapter recordAdapter;
+    private FrameLayout subActivityContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
+
+        subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
+        getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
+        WebView w = (WebView) findViewById(R.id.webView);
+        w.loadUrl(getString(R.string.remoteServer));
 
         listView = (ListView) findViewById(R.id.listView_Records);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);

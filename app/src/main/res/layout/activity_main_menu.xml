@@ -7,11 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.experitest.qasimsobeh.task1.main_menu">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="15dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -23,52 +21,81 @@
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView_welcome"
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="132dp"
-            tools:layout_editor_absoluteY="30dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-        <Button
-            android:id="@+id/button_play"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Play"
-            android:onClick="GameButton"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="84dp" />
+        </FrameLayout>
 
-        <Button
-            android:id="@+id/button_Records"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Records"
-            android:onClick="openRecordsButton"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="150dp" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/frameLayout"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1">
 
-        <Button
-            android:id="@+id/button_logs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logs"
-            android:onClick="openLogsButton"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="213dp" />
+            <TextView
+                android:id="@+id/textView_welcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="132dp"
+                tools:layout_editor_absoluteY="30dp" />
 
-        <Button
-            android:id="@+id/button_logout"
-            android:layout_width="match_parent"
-            android:onClick="logOutButton"
-            android:layout_height="wrap_content"
-            android:text="Log Out" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/button_play"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="GameButton"
+                android:text="Play"
+                tools:layout_editor_absoluteX="40dp"
+                tools:layout_editor_absoluteY="84dp" />
+
+            <Button
+                android:id="@+id/button_Records"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openRecordsButton"
+                android:text="Records"
+                tools:layout_editor_absoluteX="40dp"
+                tools:layout_editor_absoluteY="150dp" />
+
+            <Button
+                android:id="@+id/button_logs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openLogsButton"
+                android:text="Logs"
+                tools:layout_editor_absoluteX="40dp"
+                tools:layout_editor_absoluteY="213dp" />
+
+            <Button
+                android:id="@+id/button_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="logOutButton"
+                android:text="Log Out" />
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

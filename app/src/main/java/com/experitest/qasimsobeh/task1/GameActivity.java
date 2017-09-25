@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -41,64 +42,21 @@ public class GameActivity extends AppCompatActivity
     int layoutWidthForGame, layoutHeightForGame;
     private LocationManager locationManager;
     private LocationListener locationListener;
-
+    private FrameLayout subActivityContent;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        textView_timer = (TextView) findViewById(R.id.textView_remainingTime);
+        subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
+        getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
+        WebView w = (WebView) findViewById(R.id.webView);
+        w.loadUrl(getString(R.string.remoteServer));
+
         button = (Button) findViewById(R.id.button_startGame);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
-        webView = (WebView) findViewById(R.id.webView);
-
-        webView.loadUrl("http://youtube.com");
-
-        /*imageButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-
-                imageButton.setVisibility(View.INVISIBLE);
-                timer *=0.95;
-
-                if(!lost)
-                {
-                    switchButtonLocation();
-                    countDownTimer = new CountDownTimer((int) timer, 100)
-                    {
-                        @Override
-                        public void onTick(long l)
-                        {
-                            textView_timer.setText("" + l);
-                        }
-
-                        @Override
-                        public void onFinish()
-                        {
-                            if(imageButton.getVisibility() == View.INVISIBLE)
-                            {
-                                imageButton.setVisibility(View.VISIBLE);
-                                countDownTimer.cancel();
-                            }
-                            else
-                            {
-                                lost = true;
-                                imageButton.setEnabled(false);
-                                textView_timer.setText("LOST");
-                            }
-                        }
-                    }.start();
-                }
-                else
-                {
-                    textView_timer.setText("LOST");
-                }
-            }
-        });
-*/
+        textView_timer = (TextView) findViewById(R.id.textView_remainingTime);
 
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -169,7 +127,7 @@ public class GameActivity extends AppCompatActivity
         Random r = new Random();
 
         imageButtonDimensions = r.nextInt(max - min) + max;
-        layout = (RelativeLayout) findViewById(R.id.layoutGame);
+        layout = (RelativeLayout) findViewById(R.id.generalLayout);
 
         layoutWidthForGame = layout.getWidth() - imageButtonDimensions;
         layoutHeightForGame = layout.getHeight() - imageButtonDimensions;

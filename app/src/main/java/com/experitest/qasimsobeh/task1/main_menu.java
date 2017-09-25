@@ -4,16 +4,24 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 public class main_menu extends AppCompatActivity
 {
-
+    private FrameLayout subActivityContent;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
+        getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
+        WebView w = (WebView) findViewById(R.id.webView);
+        w.loadUrl(getString(R.string.remoteServer));
+
         TextView textView = (TextView) findViewById(R.id.textView_welcome);
         textView.setText("Welcome " + Globals.getUserName() + "!");
     }

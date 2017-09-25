@@ -4,25 +4,39 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.zip.Inflater;
 
 import static com.experitest.qasimsobeh.task1.R.id.button_confirm;
 
 public class LoginActivity extends AppCompatActivity
 {
+    private FrameLayout subActivityContent;
     Globals g = Globals.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
+
+        subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
+        getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
+        WebView w = (WebView) findViewById(R.id.webView);
+        w.loadUrl(getString(R.string.remoteServer));
 
         Button button_confirm = (Button) findViewById(R.id.button_confirm);
 
@@ -40,7 +54,6 @@ public class LoginActivity extends AppCompatActivity
                 Globals.getApplicationLog().add(newLog);
 
                 newLog = Globals.getApplicationLog().get(0);
-                //fillLog();
 
                 if(newLog == null)
                 {
@@ -79,17 +92,5 @@ public class LoginActivity extends AppCompatActivity
         };
 
         button_confirm.setOnClickListener(btnClick);
-    }
-
-    public static void fillLog(ArrayList<Log> log)
-    {
-        for (int i=0; i<10; i++)
-        {
-            Log newLog = new Log();
-            newLog.setAction("button" + i + " clicked");
-            newLog.setTime(DateFormat.getDateTimeInstance().format(new Date()));
-            newLog.setActivity("Main Activity");
-            log.add(newLog);
-        }
     }
 }
