@@ -42,7 +42,7 @@ public class RecordAdapter extends ArrayAdapter<Record>
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_layout, parent, false);
+            convertView = inflater.inflate(R.layout.record_row_layout, parent, false);
 
             viewHolder.txtScore = (TextView) convertView.findViewById(R.id.textView_score);
             viewHolder.txtUserName = (TextView) convertView.findViewById(R.id.textView_userName);
@@ -58,7 +58,7 @@ public class RecordAdapter extends ArrayAdapter<Record>
             result = convertView;
         }
 
-        viewHolder.txtNumber.setText("" + position);
+        viewHolder.txtNumber.setText("" + (position+1));
         viewHolder.txtUserName.setText(currentRecord.getUserName());
         viewHolder.txtScore.setText("" + currentRecord.getScore());
         viewHolder.txtTime.setText(currentRecord.getTime());

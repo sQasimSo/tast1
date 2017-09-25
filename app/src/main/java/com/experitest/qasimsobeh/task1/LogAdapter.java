@@ -57,7 +57,7 @@ public class LogAdapter extends ArrayAdapter<Log>
             result = convertView;
         }
 
-        viewHolder.txtNumber.setText("" + position);
+        viewHolder.txtNumber.setText("" + (position+1));
         viewHolder.txtAction.setText(currentLog.getAction());
         viewHolder.txtActivity.setText(currentLog.getActivity());
         viewHolder.txtTime.setText(currentLog.getTime());

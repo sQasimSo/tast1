@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -28,7 +29,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity
 {
     boolean lost = false;
-    private Handler handler;
+    WebView webView;
     double timer = 3000;
     CountDownTimer countDownTimer;
     int clicksCount = 0;
@@ -50,14 +51,16 @@ public class GameActivity extends AppCompatActivity
         textView_timer = (TextView) findViewById(R.id.textView_remainingTime);
         button = (Button) findViewById(R.id.button_startGame);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
-        handler = new Handler();
+        webView = (WebView) findViewById(R.id.webView);
 
-        imageButton.setOnClickListener(new View.OnClickListener()
+        webView.loadUrl("http://youtube.com");
+
+        /*imageButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                //kol al khara hoon!
+
                 imageButton.setVisibility(View.INVISIBLE);
                 timer *=0.95;
 
@@ -95,6 +98,7 @@ public class GameActivity extends AppCompatActivity
                 }
             }
         });
+*/
 
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -108,6 +112,7 @@ public class GameActivity extends AppCompatActivity
             }
         });
         //those line of code are for GPS coordinated and wifi name.
+
         wifi = (TextView) findViewById(R.id.textView_wifiName);
         gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
         gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);

@@ -43,7 +43,7 @@
         <RelativeLayout
             android:id="@+id/layoutGame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="296dp">
 
             <ImageButton
                 android:id="@+id/imageButton"
@@ -62,6 +62,14 @@
                 android:text="Start The Game" />
 
         </RelativeLayout>
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:theme="@style/AlertDialog.AppCompat.Light" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
