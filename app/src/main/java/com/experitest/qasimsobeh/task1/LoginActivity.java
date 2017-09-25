@@ -12,6 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class LoginActivity extends AppCompatActivity
 {
     private FrameLayout subActivityContent;
     Globals g = Globals.getInstance();
-
+    private TextView gps_latitude,gps_longitude,wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +42,15 @@ public class LoginActivity extends AppCompatActivity
 
         Button button_confirm = (Button) findViewById(R.id.button_confirm);
 
+        gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
+        gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
+        wifi = (TextView) findViewById(R.id.textView_wifiName);
+
+        String wifiString = getString(R.string.wifi) + Globals.getWifiName(getApplicationContext());
+        gps_latitude.setText("Locating your device...");
+        gps_longitude.setText("Looking for GPS coordinates..");
+        wifi.setText(wifiString);
+
         View.OnClickListener btnClick = new View.OnClickListener()
         {
             EditText entry1 = (EditText) findViewById(R.id.editText_entry1);
@@ -49,45 +60,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                Log newLog = new Log(currentDateTimeString,"Confirm Button Clicked", "Login Activity");
-                Globals.getApplicationLog().add(newLog);
-
-                newLog = Globals.getApplicationLog().get(0);
-
-                if(newLog == null)
-                {
-                    result.setText("Log not found!");
-                }
-                else
-                {
-                    result.setText(newLog.getTime() + "," + newLog.getAction() + "," + newLog.getActivity());
-                }
-
-
-                String entry1Value = entry1.getText().toString();
-                String entry2Value = entry2.getText().toString();
-
-                if(entry1Value.length() == 0 && entry2Value.length() == 0)
-                {
-                    result.setText("Entries are empty!");
-                }
-                else
-                {
-                    if (entry1Value.equals(entry2Value))
-                    {
-                        result.setText("Confirmed!");
-                        Intent intent = new Intent(getApplicationContext(), main_menu.class);
-                        Globals.setUserName(entry1Value);
-
-                        startActivity(intent);
-                        //setContentView(R.layout.activity_records);
-                    }
-                    else
-                    {
-                        result.setText("Entries are not identical!");
-                    }
-                }
+                Globals.confirmLogin(getApplicationContext(),result,entry1,entry2);
             }
         };
 

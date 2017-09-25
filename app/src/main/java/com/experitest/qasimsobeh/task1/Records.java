@@ -22,6 +22,7 @@ import java.util.List;
 
 public class Records extends AppCompatActivity
 {
+    private TextView gps_latitude,gps_longitude,wifi;
     ListView listView;
     RecordAdapter recordAdapter;
     private FrameLayout subActivityContent;
@@ -37,17 +38,17 @@ public class Records extends AppCompatActivity
         WebView w = (WebView) findViewById(R.id.webView);
         w.loadUrl(getString(R.string.remoteServer));
 
+        gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
+        gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
+        wifi = (TextView) findViewById(R.id.textView_wifiName);
+
+        String wifiString = getString(R.string.wifi) + Globals.getWifiName(getApplicationContext());
+        gps_latitude.setText("Locating your device...");
+        gps_longitude.setText("Looking for GPS coordinates..");
+        wifi.setText(wifiString);
+
         listView = (ListView) findViewById(R.id.listView_Records);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
-        //for testing
-        /*for (int i = 1; i < 10; i++)
-        {
-            BackgroundTask backgroundTask = new BackgroundTask(this);
-            backgroundTask.execute("add_info","user number " + i, DateFormat.getDateTimeInstance().format(new Date()),"" + i*7);
-            finish();
-        }*/
-
 
         ArrayList<Record> records = databaseHelper.getAllRecords();
         recordAdapter = new RecordAdapter(records, this);

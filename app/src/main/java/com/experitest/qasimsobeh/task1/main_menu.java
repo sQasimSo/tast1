@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class main_menu extends AppCompatActivity
 {
     private FrameLayout subActivityContent;
+    private TextView gps_latitude,gps_longitude,wifi;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -21,6 +22,15 @@ public class main_menu extends AppCompatActivity
         getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
         WebView w = (WebView) findViewById(R.id.webView);
         w.loadUrl(getString(R.string.remoteServer));
+
+        gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
+        gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
+        wifi = (TextView) findViewById(R.id.textView_wifiName);
+
+        String wifiString = getString(R.string.wifi) + Globals.getWifiName(getApplicationContext());
+        gps_latitude.setText("Locating your device...");
+        gps_longitude.setText("Looking for GPS coordinates..");
+        wifi.setText(wifiString);
 
         TextView textView = (TextView) findViewById(R.id.textView_welcome);
         textView.setText("Welcome " + Globals.getUserName() + "!");

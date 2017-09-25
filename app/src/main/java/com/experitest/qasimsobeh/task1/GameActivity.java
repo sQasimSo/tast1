@@ -43,6 +43,7 @@ public class GameActivity extends AppCompatActivity
     private LocationManager locationManager;
     private LocationListener locationListener;
     private FrameLayout subActivityContent;
+    Globals g;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +58,7 @@ public class GameActivity extends AppCompatActivity
         button = (Button) findViewById(R.id.button_startGame);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         textView_timer = (TextView) findViewById(R.id.textView_remainingTime);
+        g = Globals.getInstance();
 
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -74,6 +76,7 @@ public class GameActivity extends AppCompatActivity
         wifi = (TextView) findViewById(R.id.textView_wifiName);
         gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
         gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new myLocationListener(getApplicationContext(),findViewById(R.id.textView_GPS_Latitude), findViewById(R.id.textView_GPS_Longitude));
 
@@ -94,9 +97,19 @@ public class GameActivity extends AppCompatActivity
             configureLocation();
         }
 
+        String wifiString = getString(R.string.wifi) + Globals.getWifiName(getApplicationContext());
         gps_latitude.setText("Locating your device...");
         gps_longitude.setText("Looking for GPS coordinates..");
-        wifi.setText("Wifi Name: " + getWifiName(getApplicationContext()));
+        wifi.setText(wifiString);
+    }
+
+    public void configureLocation()
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
     }
 
     @Override
@@ -109,15 +122,6 @@ public class GameActivity extends AppCompatActivity
                     configureLocation();
                 return;
         }
-    }
-
-    private void configureLocation()
-    {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
     }
 
     public void switchButtonLocation()
@@ -140,24 +144,5 @@ public class GameActivity extends AppCompatActivity
 
         LayoutParams params = new LayoutParams(imageButtonDimensions, imageButtonDimensions);
         imageButton.setLayoutParams(params);
-    }
-
-
-    public String getWifiName(Context context)
-    {
-        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (manager.isWifiEnabled())
-        {
-            WifiInfo wifiInfo = manager.getConnectionInfo();
-            if (wifiInfo != null)
-            {
-                NetworkInfo.DetailedState state = WifiInfo.getDetailedStateOf(wifiInfo.getSupplicantState());
-                if (state == NetworkInfo.DetailedState.CONNECTED || state == NetworkInfo.DetailedState.OBTAINING_IPADDR)
-                {
-                    return wifiInfo.getSSID();
-                }
-            }
-        }
-        return null;
     }
 }
