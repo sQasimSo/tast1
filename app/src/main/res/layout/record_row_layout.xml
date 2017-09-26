@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="78dp"
-    android:background="#999999">
+    android:background="#999999"
+    android:id="@+id/recordRowActivity_layout">
 
     <TextView
         android:id="@+id/textView_number"

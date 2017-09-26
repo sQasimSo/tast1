@@ -2,6 +2,7 @@ package com.experitest.qasimsobeh.task1;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -52,6 +54,9 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
         getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
         WebView w = (WebView) findViewById(R.id.webView);
@@ -67,9 +72,34 @@ public class GameActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                Log newLog = new Log(currentDateTimeString,"Game Started", "Game Activity");
+                Globals.getApplicationLog().add(newLog);
+
+                timer = 3000;
+                isPlaying = true;
                 button.setVisibility(View.INVISIBLE);
                 imageButton.setVisibility(View.VISIBLE);
-                switchButtonLocation();
+
+                Random r = new Random();
+
+                imageButtonDimensions = r.nextInt(max - min) + max;
+                if (imageButtonDimensions < 50)
+                    imageButtonDimensions = 50;
+                layout = (RelativeLayout) findViewById(R.id.generalLayout);
+
+                layoutWidthForGame = layout.getWidth() - imageButtonDimensions;
+                layoutHeightForGame = layout.getHeight() - imageButtonDimensions;
+
+                imageButtonX = r.nextInt(layoutWidthForGame);
+                imageButtonY = r.nextInt(layoutHeightForGame);
+                imageButton.setX(imageButtonX);
+                imageButton.setY(imageButtonY);
+
+
+                LayoutParams params = new LayoutParams(imageButtonDimensions, imageButtonDimensions);
+                imageButton.setLayoutParams(params);
+
                 startTimer(timer);
             }
         });
@@ -85,6 +115,7 @@ public class GameActivity extends AppCompatActivity
                 startTimer(timer);
             }
         });
+
         //those line of code are for GPS coordinated and wifi name.
 
         wifi = (TextView) findViewById(R.id.textView_wifiName);
@@ -112,8 +143,8 @@ public class GameActivity extends AppCompatActivity
         }
 
         String wifiString = getString(R.string.wifi) + Globals.getWifiName(getApplicationContext());
-        gps_latitude.setText("Locating your device...");
-        gps_longitude.setText("Looking for GPS coordinates..");
+        gps_latitude.setText("" + Globals.location.getLatitude());
+        gps_longitude.setText("" + Globals.location.getLongitude());
         wifi.setText(wifiString);
     }
 
@@ -134,7 +165,6 @@ public class GameActivity extends AppCompatActivity
             case 10:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     configureLocation();
-                return;
         }
     }
 
@@ -145,6 +175,8 @@ public class GameActivity extends AppCompatActivity
         Random r = new Random();
 
         imageButtonDimensions = r.nextInt(max - min) + max;
+        if (imageButtonDimensions < 50)
+            imageButtonDimensions = 50;
         layout = (RelativeLayout) findViewById(R.id.generalLayout);
 
         layoutWidthForGame = layout.getWidth() - imageButtonDimensions;
@@ -168,7 +200,7 @@ public class GameActivity extends AppCompatActivity
             {
                 if (isPlaying == true)
                 {
-                    textView_timer.setText("seconds remaining: " + millisUntilDone / 100 + "." + millisUntilDone % 100);
+                    textView_timer.setText("seconds remaining: " + millisUntilDone / 1000 + ":" + millisUntilDone % 1000);
                 }
                 else
                 {
@@ -180,26 +212,15 @@ public class GameActivity extends AppCompatActivity
             {
                 isPlaying = false;
                 imageButton.setVisibility(View.INVISIBLE);
-                textView_timer.setText("done!");
+                textView_timer.setText("Done!");
 
                 BackgroundTask backgroundTask = new BackgroundTask(getApplication());
-                backgroundTask.execute("add_info", Globals.getUserName(), DateFormat.getDateTimeInstance().format(new Date()), "" + clicksCount);
-                finish();
+                backgroundTask.execute("add_info", Globals.getUserName(), DateFormat.getDateTimeInstance().format(new Date()), "" + (clicksCount));
+                //finish();
 
                 clicksCount = 0;
                 button.setVisibility(View.VISIBLE);
             }
         }.start();
     }
-
-    /*@Override
-    protected void onResume()
-    {
-        if (currentuser.getusername().equals(""))
-        {
-            Intent myintent = new Intent(gamescreen.this, MainActivity.class);
-            startActivity(myintent);
-        }
-        super.onResume();
-    }*/
 }

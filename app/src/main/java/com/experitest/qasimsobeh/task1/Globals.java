@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.NetworkInfo;
@@ -29,6 +30,7 @@ import java.util.Date;
 
 public class Globals extends Application
 {
+    public static Location location;
     private static Globals instance;
     private static String userName;
     private static ArrayList<Log> applicationLog;
@@ -65,11 +67,6 @@ public class Globals extends Application
         return applicationLog;
     }
 
-    public static void setApplicationLog(ArrayList<Log> applicationLog)
-    {
-        Globals.applicationLog = applicationLog;
-    }
-
     public static synchronized Globals getInstance()
     {
         if (instance == null)
@@ -95,48 +92,5 @@ public class Globals extends Application
             }
         }
         return null;
-    }
-
-    public static void confirmLogin(Context context, TextView result, EditText entry1, EditText entry2)
-    {
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        Log newLog = new Log(currentDateTimeString,"Confirm Button Clicked", "Login Activity");
-        Globals.getApplicationLog().add(newLog);
-
-        newLog = Globals.getApplicationLog().get(0);
-
-        if(newLog == null)
-        {
-            result.setText("Log not found!");
-        }
-        else
-        {
-            result.setText(newLog.getTime() + "," + newLog.getAction() + "," + newLog.getActivity());
-        }
-
-
-        String entry1Value = entry1.getText().toString();
-        String entry2Value = entry2.getText().toString();
-
-        if(entry1Value.length() == 0 && entry2Value.length() == 0)
-        {
-            result.setText("Entries are empty!");
-        }
-        else
-        {
-            if (entry1Value.equals(entry2Value))
-            {
-                result.setText("Confirmed!");
-                Intent intent = new Intent(context, main_menu.class);
-                Globals.setUserName(entry1Value);
-
-                context.startActivity(intent);
-                //setContentView(R.layout.activity_records);
-            }
-            else
-            {
-                result.setText("Entries are not identical!");
-            }
-        }
     }
 }
