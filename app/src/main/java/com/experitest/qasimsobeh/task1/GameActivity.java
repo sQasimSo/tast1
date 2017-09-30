@@ -36,7 +36,7 @@ public class GameActivity extends AppCompatActivity
     boolean isPlaying = true;
     long timer = 3000;
     CountDownTimer countDownTimer;
-    int clicksCount = -1;
+    int clicksCount = 0;
     TextView gps_latitude, gps_longitude, wifi, textView_timer;
     Button button;
     RelativeLayout layout;
@@ -73,7 +73,7 @@ public class GameActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                Log newLog = new Log(currentDateTimeString,"Game Started", "Game Activity");
+                Log newLog = new Log(currentDateTimeString, "Game Started", "Game Activity");
                 Globals.getApplicationLog().add(newLog);
 
                 timer = 3000;
@@ -86,6 +86,7 @@ public class GameActivity extends AppCompatActivity
                 imageButtonDimensions = r.nextInt(max - min) + max;
                 if (imageButtonDimensions < 50)
                     imageButtonDimensions = 50;
+
                 layout = (RelativeLayout) findViewById(R.id.generalLayout);
 
                 layoutWidthForGame = layout.getWidth() - imageButtonDimensions;
@@ -198,7 +199,7 @@ public class GameActivity extends AppCompatActivity
         {
             public void onTick(long millisUntilDone)
             {
-                if (isPlaying == true)
+                if (isPlaying)
                 {
                     textView_timer.setText("seconds remaining: " + millisUntilDone / 1000 + ":" + millisUntilDone % 1000);
                 }

@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity
     private FrameLayout subActivityContent;
     Globals g = Globals.getInstance();
     private TextView gps_latitude,gps_longitude,wifi;
+    private EditText entry1;
+    private EditText entry2;
+    private TextView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,13 +49,15 @@ public class LoginActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_login);
 
+        entry1 = (EditText) findViewById(R.id.editText_entry1);
+        entry2 = (EditText) findViewById(R.id.editText_entry2);
+        result = (TextView) findViewById(R.id.textView_result);
+
         Globals.location = new Location(Context.LOCATION_SERVICE);
         subActivityContent = (FrameLayout) findViewById(R.id.frameLayout);
         getLayoutInflater().inflate(R.layout.base_layout, subActivityContent, true);
         WebView w = (WebView) findViewById(R.id.webView);
         w.loadUrl(getString(R.string.remoteServer));
-
-        Button button_confirm = (Button) findViewById(R.id.button_confirm);
 
         gps_latitude = (TextView) findViewById(R.id.textView_GPS_Latitude);
         gps_longitude = (TextView) findViewById(R.id.textView_GPS_Longitude);
@@ -94,47 +99,17 @@ public class LoginActivity extends AppCompatActivity
         }
 
 
-        View.OnClickListener btnClick = new View.OnClickListener()
+        /*View.OnClickListener btnClick = new View.OnClickListener()
         {
-            EditText entry1 = (EditText) findViewById(R.id.editText_entry1);
-            EditText entry2 = (EditText) findViewById(R.id.editText_entry2);
-            TextView result = (TextView) findViewById(R.id.textView_result);
-
             @Override
             public void onClick(View view)
             {
                 //Globals.confirmLogin(getApplicationContext(),result,entry1,entry2);
-                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                Log newLog = new Log(currentDateTimeString,"Confirm Button Clicked", "Login Activity");
-                Globals.getApplicationLog().add(newLog);
 
-                String entry1Value = entry1.getText().toString();
-                String entry2Value = entry2.getText().toString();
-
-                if(entry1Value.length() == 0 && entry2Value.length() == 0)
-                {
-                    result.setText("Entries are empty!");
-                }
-                else
-                {
-                    if (entry1Value.equals(entry2Value))
-                    {
-                        result.setText("Confirmed!");
-                        Intent intent = new Intent(getApplicationContext(), main_menu.class);
-                        Globals.setUserName(entry1Value);
-
-                        startActivity(intent);
-                        //setContentView(R.layout.activity_records);
-                    }
-                    else
-                    {
-                        result.setText("Entries are not identical!");
-                    }
-                }
             }
         };
 
-        button_confirm.setOnClickListener(btnClick);
+        button_confirm.setOnClickListener(btnClick);*/
     }
 
     @Override
@@ -152,6 +127,37 @@ public class LoginActivity extends AppCompatActivity
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
                 }
                 return;
+        }
+    }
+
+    public void confirmation(View view)
+    {
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        Log newLog = new Log(currentDateTimeString,"Confirm Button Clicked", "Login Activity");
+        Globals.getApplicationLog().add(newLog);
+
+        String entry1Value = entry1.getText().toString();
+        String entry2Value = entry2.getText().toString();
+
+        if(entry1Value.length() == 0 && entry2Value.length() == 0)
+        {
+            result.setText("Entries are empty!");
+        }
+        else
+        {
+            if (entry1Value.equals(entry2Value))
+            {
+                result.setText("Confirmed!");
+                Intent intent = new Intent(getApplicationContext(), main_menu.class);
+                Globals.setUserName(entry1Value);
+
+                startActivity(intent);
+                //setContentView(R.layout.activity_records);
+            }
+            else
+            {
+                result.setText("Entries are not identical!");
+            }
         }
     }
 }
